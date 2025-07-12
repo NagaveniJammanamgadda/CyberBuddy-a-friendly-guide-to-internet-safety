@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyber Quiz - CyberSafeKids</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e6f7ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .quiz-container {
+      max-width: 700px;
+      margin: 50px auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #00bfff;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      margin-bottom: 20px;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #00bfff;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: white;
+      transition: 0.3s;
+    }
+
+    .options button:hover {
+      background-color: #cceeff;
+    }
+
+    .result {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      color: green;
+    }
+
+    .tip {
+      font-style: italic;
+      color: #555;
+      margin-top: 10px;
+    }
+
+    .score-box {
+      font-size: 1.5rem;
+      color: #006400;
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h2>🚀 Cyber Quiz</h2>
+  <div id="quiz">
+    <!-- Quiz content will load here -->
+  </div>
+  <div class="score-box" id="scoreBox" style="display:none;"></div>
+</div>
+
+<script>
+  const quizData = [
+    {
+      question: "1. What should you do if someone online asks for your password?",
+      options: ["Tell them", "Ignore them", "Ask a friend", "Share it if they are nice"],
+      answer: 1,
+      tip: "Tip: Never share your passwords with anyone—even friends!"
+    },
+    {
+      question: "2. What is phishing?",
+      options: ["Fishing in a pond", "A way to steal your info online", "A fun game", "A chat app"],
+      answer: 1,
+      tip: "Tip: Don't click links in unknown messages or emails."
+    },
+    {
+      question: "3. Which of these is a strong password?",
+      options: ["123456", "password", "MyName2020", "Q@w!9Xz*"],
+      answer: 3,
+      tip: "Tip: Use strong passwords with letters, numbers, and symbols."
+    },
+    {
+      question: "4. Should you talk to strangers online?",
+      options: ["Yes, always", "Only if they are funny", "No, it’s risky", "Sure, once"],
+      answer: 2,
+      tip: "Tip: Don't talk to strangers online—it’s not safe."
+    },
+    {
+      question: "5. What should you do before downloading a new app?",
+      options: ["Nothing", "Ask an adult", "Just install", "Click all buttons"],
+      answer: 1,
+      tip: "Tip: Always ask a parent or teacher before downloading anything."
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  function loadQuiz() {
+    const quizBox = document.getElementById("quiz");
+    const qData = quizData[currentQuestion];
+
+    quizBox.innerHTML = `
+      <div class="question">${qData.question}</div>
+      <div class="options">
+        ${qData.options.map((opt, i) => `<button onclick="checkAnswer(${i})">${opt}</button>`).join("")}
+      </div>
+      <div class="result" id="result"></div>
+      <div class="tip" id="tip"></div>
+    `;
+  }
+
+  function checkAnswer(selectedIndex) {
+    const correctIndex = quizData[currentQuestion].answer;
+    const resultDiv = document.getElementById("result");
+    const tipDiv = document.getElementById("tip");
+
+    if (selectedIndex === correctIndex) {
+      score++;
+      resultDiv.innerHTML = "✅ Correct! Good job!";
+      resultDiv.style.color = "green";
+    } else {
+      resultDiv.innerHTML = `❌ Oops! The correct answer was: ${quizData[currentQuestion].options[correctIndex]}`;
+      resultDiv.style.color = "red";
+    }
+
+    tipDiv.innerHTML = quizData[currentQuestion].tip;
+
+    setTimeout(() => {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        loadQuiz();
+      } else {
+        showScore();
+      }
+    }, 2500);
+  }
+
+  function showScore() {
+    document.getElementById("quiz").style.display = "none";
+    const scoreBox = document.getElementById("scoreBox");
+    scoreBox.style.display = "block";
+    scoreBox.innerHTML = `
+      🎉 You scored ${score} out of ${quizData.length}!<br>
+      ${score >= 4 ? "🌟 You're a Cyber Safety Star!" : "📚 Keep learning, and stay safe online!"}
+    `;
+  }
+
+  // Start quiz
+  loadQuiz();
+</script>
+
+</body>
+</html>
